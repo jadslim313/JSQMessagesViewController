@@ -650,10 +650,11 @@ JSQMessagesKeyboardControllerDelegate>
                                  atIndexPath:(NSIndexPath *)indexPath
 {
     if (self.showTypingIndicator && [kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        return [collectionView dequeueTypingIndicatorFooterViewForIndexPath:indexPath];
-    }
-    else if (self.showLoadEarlierMessagesHeader && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        return [collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
+                   return [collectionView dequeueTypingIndicatorFooterViewForIndexPath:indexPath];
+                }
+            else if (self.showLoadEarlierMessagesHeader && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
+                    return [collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
+                }
     }
 
     return nil;
