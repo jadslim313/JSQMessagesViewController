@@ -1061,8 +1061,8 @@ JSQMessagesKeyboardControllerDelegate>
 
 - (void)jsq_updateCollectionViewInsets
 {
-    CGFloat newTop = self.topLayoutGuide.length + self.topContentAdditionalInset
-    CGFloat newBottom = CGRectGetMaxY(self.collectionView.frame) - CGRectGetMinY(self.inputToolbar.frame)
+    CGFloat newTop = self.topLayoutGuide.length + self.topContentAdditionalInset;
+    CGFloat newBottom = CGRectGetMaxY(self.collectionView.frame) - CGRectGetMinY(self.inputToolbar.frame);
 }
 
 - (void)jsq_setCollectionViewInsetsTopValue:(CGFloat)top bottomValue:(CGFloat)bottom
