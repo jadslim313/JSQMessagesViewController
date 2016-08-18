@@ -1061,8 +1061,9 @@ JSQMessagesKeyboardControllerDelegate>
 
 - (void)jsq_updateCollectionViewInsets
 {
-    [self jsq_setCollectionViewInsetsTopValue:self.topLayoutGuide.length + self.topContentAdditionalInset
-                                  bottomValue:CGRectGetMaxY(self.collectionView.frame) - CGRectGetMinY(self.inputToolbar.frame)];
+    CGFloat newTop = !self.inverted ? self.topLayoutGuide.length + self.topContentAdditionalInset : CGRectGetMaxY(self.collectionView.frame) - CGRectGetMinY(self.inputToolbar.frame);
+        CGFloat newBottom = !self.inverted ? CGRectGetMaxY(self.collectionView.frame) - CGRectGetMinY(self.inputToolbar.frame) : CGRectGetMaxY(self.navigationController.navigationBar.frame);
+        [self jsq_setCollectionViewInsetsTopValue:newTop bottomValue:newBottom];
 }
 
 - (void)jsq_setCollectionViewInsetsTopValue:(CGFloat)top bottomValue:(CGFloat)bottom
