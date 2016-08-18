@@ -655,7 +655,7 @@ JSQMessagesKeyboardControllerDelegate>
             else if (self.showLoadEarlierMessagesHeader && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
                     return [collectionView dequeueLoadEarlierMessagesViewHeaderForIndexPath:indexPath];
                 }
-    }
+    
 
     return nil;
 }
@@ -663,11 +663,7 @@ JSQMessagesKeyboardControllerDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-    if (!self.showTypingIndicator) {
-        return CGSizeZero;
-    }
-
-    return CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesTypingIndicatorFooterViewHeight);
+    return !self.inverted ? [self sizeOfTypingIndicator:collectionViewLayout] : [self sizeOfLoadEarlierHeader:collectionViewLayout];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
