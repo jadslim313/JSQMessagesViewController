@@ -660,20 +660,28 @@ JSQMessagesKeyboardControllerDelegate>
     return nil;
 }
 
+
+
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-    return !self.inverted ? [self sizeOfTypingIndicator:collectionViewLayout] : [self sizeOfLoadEarlierHeader:collectionViewLayout];
-}
+    return [self sizeOfTypingIndicator:collectionViewLayout]; }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    if (!self.showLoadEarlierMessagesHeader) {
-        return CGSizeZero;
-    }
+    
+    
+    return [self sizeOfLoadEarlierHeader:collectionViewLayout] ;
+}
 
-    return CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesLoadEarlierHeaderViewHeight);
+- (CGSize)sizeOfTypingIndicator:(JSQMessagesCollectionViewFlowLayout*)collectionViewLayout {
+    return self.showTypingIndicator ? CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesTypingIndicatorFooterViewHeight) : CGSizeZero;
+
+  
+}
+- (CGSize)sizeOfLoadEarlierHeader:(JSQMessagesCollectionViewFlowLayout*)collectionViewLayout {
+    return self.showLoadEarlierMessagesHeader ? CGSizeMake([collectionViewLayout itemWidth], kJSQMessagesLoadEarlierHeaderViewHeight) : CGSizeZero;
 }
 
 #pragma mark - Collection view delegate
