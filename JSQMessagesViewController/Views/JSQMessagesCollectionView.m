@@ -46,36 +46,46 @@
 - (void)jsq_configureCollectionView
 {
     [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-
+    
     self.backgroundColor = [UIColor whiteColor];
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeNone;
     self.alwaysBounceVertical = YES;
     self.bounces = YES;
     
     [self registerNib:[JSQMessagesCollectionViewCellIncoming nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellIncoming cellReuseIdentifier]];
+forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellIncoming cellReuseIdentifier]];
     
     [self registerNib:[JSQMessagesCollectionViewCellOutgoing nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier]];
+forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing cellReuseIdentifier]];
     
     [self registerNib:[JSQMessagesCollectionViewCellIncoming nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier]];
+forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellIncoming mediaCellReuseIdentifier]];
     
     [self registerNib:[JSQMessagesCollectionViewCellOutgoing nib]
-          forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing mediaCellReuseIdentifier]];
+forCellWithReuseIdentifier:[JSQMessagesCollectionViewCellOutgoing mediaCellReuseIdentifier]];
     
     [self registerNib:[JSQMessagesTypingIndicatorFooterView nib]
-          forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-          withReuseIdentifier:[JSQMessagesTypingIndicatorFooterView footerReuseIdentifier]];
+forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+  withReuseIdentifier:[JSQMessagesTypingIndicatorFooterView footerReuseIdentifier]];
+    
+    // For inverted mode
+    [self registerNib:[JSQMessagesTypingIndicatorFooterView nib]
+forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+  withReuseIdentifier:[JSQMessagesTypingIndicatorFooterView footerReuseIdentifier]];
     
     [self registerNib:[JSQMessagesLoadEarlierHeaderView nib]
-          forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-          withReuseIdentifier:[JSQMessagesLoadEarlierHeaderView headerReuseIdentifier]];
-
+forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+  withReuseIdentifier:[JSQMessagesLoadEarlierHeaderView headerReuseIdentifier]];
+    
+    // For inverted mode
+    [self registerNib:[JSQMessagesLoadEarlierHeaderView nib]
+forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+  withReuseIdentifier:[JSQMessagesLoadEarlierHeaderView headerReuseIdentifier]];
+    
     _typingIndicatorDisplaysOnLeft = YES;
     _typingIndicatorMessageBubbleColor = [UIColor jsq_messageBubbleLightGrayColor];
     _typingIndicatorEllipsisColor = [_typingIndicatorMessageBubbleColor jsq_colorByDarkeningColorWithValue:0.3f];
-
+    
     _loadEarlierMessagesHeaderTextColor = [UIColor jsq_messageBubbleBlueColor];
 }
 
@@ -98,15 +108,16 @@
 
 - (JSQMessagesTypingIndicatorFooterView *)dequeueTypingIndicatorFooterViewForIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessagesTypingIndicatorFooterView *footerView = [super dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+    NSString *kind = CGAffineTransformIsIdentity(self.transform) ? UICollectionElementKindSectionFooter : UICollectionElementKindSectionHeader;
+    JSQMessagesTypingIndicatorFooterView *footerView = [super dequeueReusableSupplementaryViewOfKind:kind
                                                                                  withReuseIdentifier:[JSQMessagesTypingIndicatorFooterView footerReuseIdentifier]
                                                                                         forIndexPath:indexPath];
-
+    
     [footerView configureWithEllipsisColor:self.typingIndicatorEllipsisColor
                         messageBubbleColor:self.typingIndicatorMessageBubbleColor
                        shouldDisplayOnLeft:self.typingIndicatorDisplaysOnLeft
                          forCollectionView:self];
-
+    footerView.transform = self.transform;
     return footerView;
 }
 
@@ -114,13 +125,15 @@
 
 - (JSQMessagesLoadEarlierHeaderView *)dequeueLoadEarlierMessagesViewHeaderForIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessagesLoadEarlierHeaderView *headerView = [super dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+    NSString *kind = CGAffineTransformIsIdentity(self.transform) ? UICollectionElementKindSectionHeader : UICollectionElementKindSectionFooter;
+    JSQMessagesLoadEarlierHeaderView *headerView = [super dequeueReusableSupplementaryViewOfKind:kind
                                                                              withReuseIdentifier:[JSQMessagesLoadEarlierHeaderView headerReuseIdentifier]
                                                                                     forIndexPath:indexPath];
-
+    
     headerView.loadButton.tintColor = self.loadEarlierMessagesHeaderTextColor;
     headerView.delegate = self;
-
+    headerView.transform = self.transform;
+    
     return headerView;
 }
 
@@ -141,7 +154,7 @@
     if (indexPath == nil) {
         return;
     }
-
+    
     [self.delegate collectionView:self
             didTapAvatarImageView:cell.avatarImageView
                       atIndexPath:indexPath];
@@ -153,7 +166,7 @@
     if (indexPath == nil) {
         return;
     }
-
+    
     [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:indexPath];
 }
 
@@ -163,7 +176,7 @@
     if (indexPath == nil) {
         return;
     }
-
+    
     [self.delegate collectionView:self
             didTapCellAtIndexPath:indexPath
                     touchLocation:position];
@@ -175,7 +188,7 @@
     if (indexPath == nil) {
         return;
     }
-
+    
     [self.delegate collectionView:self
                     performAction:action
                forItemAtIndexPath:indexPath
