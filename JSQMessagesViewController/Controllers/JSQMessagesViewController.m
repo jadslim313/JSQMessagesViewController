@@ -153,7 +153,7 @@ static void JSQInstallWorkaroundForSheetPresentationIssue26295020(void) {
 
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-
+    self.collectionView.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0);
     self.inputToolbar.delegate = self;
     self.inputToolbar.contentView.textView.placeHolder = [NSBundle jsq_localizedStringForKey:@"new_message"];
     self.inputToolbar.contentView.textView.accessibilityLabel = [NSBundle jsq_localizedStringForKey:@"new_message"];
