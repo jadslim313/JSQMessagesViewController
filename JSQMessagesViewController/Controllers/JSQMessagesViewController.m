@@ -178,6 +178,7 @@ JSQMessagesKeyboardControllerDelegate>
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0);
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.inputToolbar.delegate = self;
     self.inputToolbar.contentView.textView.placeHolder = [NSBundle jsq_localizedStringForKey:@"new_message"];
 
